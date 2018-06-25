@@ -4,6 +4,8 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 import { FlashMessagesService } from 'angular2-flash-messages';
 import { Client } from '../../models/Client';
 
+import { SettingsService } from '../../services/settings.service';
+
 @Component({
   selector: 'app-edit-client',
   templateUrl: './edit-client.component.html',
@@ -18,7 +20,7 @@ export class EditClientComponent implements OnInit {
     phone: '',
     balance: 0
   };
-  disableBalanceOnEdit: boolean = true;
+  disableBalanceOnEdit: boolean;
 
   // pass in the name of the form into the @ViewChild
   @ViewChild('clientForm') form: any;
@@ -27,10 +29,13 @@ export class EditClientComponent implements OnInit {
     private clientService: ClientService,
     private router: Router,
     private route: ActivatedRoute,
-    private flashMessage: FlashMessagesService
+    private flashMessage: FlashMessagesService,
+    private settingsServce: SettingsService
   ) { }
 
   ngOnInit() {
+    // get settings for disabling add balance input on edit
+    this.disableBalanceOnEdit = this.settingsServce.getSettings().disableBalanceOnEdit;
     // get id from url
     this.id = this.route.snapshot.params['id'];
     // get client

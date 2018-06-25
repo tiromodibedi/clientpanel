@@ -10,15 +10,19 @@ import { RegisterComponent } from './components/register/register.component';
 import { SettingsComponent } from './components/settings/settings.component';
 import { LoginComponent } from './components/login/login.component';
 
+// this auth guard is a service so we need to bring it in as a provider
+import { AuthGuard } from './guards/auth.guard';
+import { RegisterGuard } from './guards/register.guard';
+
 
 const routes: Routes = [
-  {path: '', component: DashboardComponent},
+  { path: '', component: DashboardComponent, canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent },
-  { path: 'register', component: RegisterComponent },
-  { path: 'settings', component: SettingsComponent },
-  { path: 'client/add', component: AddClientComponent },
-  { path: 'client/:id', component: ClientDetailsComponent },
-  { path: 'client/edit/:id', component: EditClientComponent },
+  { path: 'register', component: RegisterComponent, canActivate: [RegisterGuard] },
+  { path: 'settings', component: SettingsComponent, canActivate: [AuthGuard] },
+  { path: 'client/add', component: AddClientComponent, canActivate: [AuthGuard] },
+  { path: 'client/:id', component: ClientDetailsComponent, canActivate: [AuthGuard] },
+  { path: 'client/edit/:id', component: EditClientComponent, canActivate: [AuthGuard] },
   { path: '**', component: NotFoundComponent }
 ];
 
@@ -26,6 +30,10 @@ const routes: Routes = [
   exports: [RouterModule],
   imports: [
     RouterModule.forRoot(routes)
+  ],
+  providers: [
+    AuthGuard,
+    RegisterGuard
   ],
   declarations: []
 })

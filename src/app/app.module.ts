@@ -23,6 +23,8 @@ import { AppRoutingModule } from './/app-routing.module';
 import { SettingsComponent } from './components/settings/settings.component';
 
 import { ClientService } from './services/client.service';
+import { AuthService } from './services/auth.service';
+import { SettingsService } from './services/settings.service';
 
 @NgModule({
   declarations: [
@@ -49,7 +51,9 @@ import { ClientService } from './services/client.service';
     AngularFireAuthModule
   ],
   providers: [
-    ClientService
+    ClientService,
+    AuthService,
+    SettingsService
   ],
   bootstrap: [AppComponent]
 })
